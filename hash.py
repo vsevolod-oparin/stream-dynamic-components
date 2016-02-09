@@ -1,12 +1,13 @@
 # Polynomial k-hash algorithm
 # -*- coding: utf-8 -*-
 
-import util
+import primes
+import random
 
 class HashK:
     def __init__(self, dom, k = 2):
         self.dom = dom
-        self.p = primeMoreThan(2 * dom)
+        self.p = primes.primeMoreThan(2 * dom)
         self.coeffs = [random.randint(0, self.p - 1) for i in xrange(k)]
 
     def at(self, x):
