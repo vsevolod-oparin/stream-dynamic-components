@@ -1,4 +1,5 @@
 # Algorithm and graph data structure
+# -*- coding: utf-8 -*-
 
 class DSU:
     def __init__(self, n):

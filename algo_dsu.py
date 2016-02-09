@@ -1,4 +1,5 @@
 # Algorithm and graph data structure
+# -*- coding: utf-8 -*-
 
 from dsu import DSU as DSU
 

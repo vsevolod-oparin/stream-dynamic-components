@@ -1,6 +1,18 @@
 # L0 sketch
+# -*- coding: utf-8 -*-
 
 import copy
+import primes
+import math
+import random
+
+def fast_pow(x, p, mod):
+    if p == 0:
+        return 1
+    if p == 1:
+        return x
+    mult = x if p % 2 == 1 else 1
+    return mult * fast_pow(x * x % mod, p / 2, mod§)
 
 class Rec1:
     # one test succeeds with wrong valus w.p. 0.25
@@ -8,22 +20,15 @@ class Rec1:
     # k * log_2 0.25 < log_2 delta
     # k < 2 * log delta^{-1}
     def __init__(self, n, delta):
-        self.p = primeMoreThan(4 * n)
+        self.p = primes.primeMoreThan(4 * n)
         self.s0 = 0
         self.s1 = 0        
         self.k = 1 - 2 * int(math.ceil(math.log(delta, 2)))
-        self.tests = [[0, random.randint(0, p - 1)] for i in xrange(self.k)]
-
-    def __init__(self, p, s0, s1, k, tests):
-        self.p = p
-        self.s0 = s0
-        self.s1 = s1
-        self.k = k
-        self.tests = tests
+        self.tests = [[0, random.randint(0, self.p - 1)] for i in xrange(self.k)]
 
     def update(self, ind, val):
         self.s0 += val
-        self.s1 += i * val
+        self.s1 += ind * val
         for test in self.tests:
             test[0] += val * fast_pow(test[1], ind, self.p) % self.p
 
@@ -40,8 +45,13 @@ class Rec1:
         return True
 
     def sum(self, rhs):
-        sum_tests = [[(self.tests[i][0] + rhs.tests[i][0]) % rhs.p, self.tests[i][1]] for i in xrange(rhs.k)]
-        return Rec1(rhs.p, self.s0 + rhs.s0, self.s1 + rhs.s1, rhs.k, sum_tests)
+        result = copy.deepcopy(self)
+        result.s0 = self.s0 + rhs.s0
+        result.s1 = self.s1 + rhs.s1
+        result.tests = [\
+            [(self.tests[i][0] + rhs.tests[i][0]) % rhs.p, self.tests[i][1]] for i in xrange(rhs.k)]
+        return result
+    
 
 class RecS:
     def __init__(self, n, s, delta):
@@ -53,14 +63,6 @@ class RecS:
         delta_decoder = delta / (2.0 * self.k * self.s)
         self.skecth = [[Rec1(n, delta_decoder) for j in xrange(2 * s)] for i in xrange(self.k)]
         self.hashes = [HashK(2 * s) for i in xrange(self.k)]
-
-    def __init__(self, cnt, n, s, k, sketch, hashes):
-        self.cnt = cnt
-        self.n = n
-        self.s = s
-        self.k = k
-        self.sketch = sketch
-        self.hashes = hashes
 
     def update(self, ind, val):
         self.cnt += 1
@@ -77,9 +79,11 @@ class RecS:
         return dict(result)
 
     def sum(self, rhs):
-        sum_sketch = [[self.sketch[i][j].sum(rhs.sketch[i][j]) for j in xrange(2 * s)] for i in xrange(self.k)]
-        cnt = self.cnt + rhs.cnt
-        return RecS(cnt, rhs.n, rhs.s, rhs.k, sum_sketch, rhs.hashes) 
+        result = copy.deepcopy(self)
+        result.cnt += rhs.cnt
+        result.sketch = [\
+            [self.sketch[i][j].sum(rhs.sketch[i][j]) for j in xrange(2 * s)] for i in xrange(self.k)]
+        return result
 
     def touched():
         return self.cnt != 0

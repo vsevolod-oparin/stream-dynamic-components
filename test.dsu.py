@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import unittest
 from algo_dsu import DsuGraph as DsuGraph
@@ -32,9 +33,6 @@ class TestDsuGraph(unittest.TestCase):
         g = DsuGraph(6)
         with self.assertRaises(TypeError):
             g.remove_edge(1, 2)
-
-class TestDsuGraph(unittest.TestCase):
-    
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,4 +1,5 @@
 # Utul methods 
+# -*- coding: utf-8 -*-
 
 def isPrime(v):
     if v == 2:

@@ -1,4 +1,5 @@
 # Algorithm and graph data structure
+# -*- coding: utf-8 -*-
 
 from dsu import DSU as DSU
 from l0sample import RecGeneral as RecGeneral
@@ -41,7 +42,7 @@ class DynamicGraph:
                 for j in xrange(1, len(component)):
                     add_sketch = sketch[lev][component[j]]
                     sketch_sum[key] = sketch_sum[key].sum(add_sketch)
-                    
+
             # sampling and union
             for key in sketch_sum.keys():
                 edge_num, val = sketch_sum[key].sample()

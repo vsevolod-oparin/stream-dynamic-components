@@ -1,4 +1,5 @@
 # Polynomial k-hash algorithm
+# -*- coding: utf-8 -*-
 
 import util
 
