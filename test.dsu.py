@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from algo_dsu import DsuGraph as DsuGraph
+from algo.algo_dsu import DsuGraph as DsuGraph
 
 class TestDsuGraph(unittest.TestCase):
 

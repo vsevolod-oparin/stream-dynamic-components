@@ -4,9 +4,9 @@
 import unittest
 import random
 
-from l0sample import Rec1 as Rec1
-from l0sample import RecS as RecS
-from l0sample import RecGeneral as RecGeneral
+from algo.l0sample import Rec1 as Rec1
+from algo.l0sample import RecS as RecS
+from algo.l0sample import RecGeneral as RecGeneral
 
 class TestRec1(unittest.TestCase):
 
