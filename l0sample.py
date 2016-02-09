@@ -1,6 +1,8 @@
 # L0 sketch
 
-def Rec1:
+import copy
+
+class Rec1:
     # one test succeeds with wrong valus w.p. 0.25
     # k tests succeed with wrong values w.p. 0.25**k < delta
     # k * log_2 0.25 < log_2 delta
@@ -41,7 +43,7 @@ def Rec1:
         sum_tests = [[(self.tests[i][0] + rhs.tests[i][0]) % rhs.p, self.tests[i][1]] for i in xrange(rhs.k)]
         return Rec1(rhs.p, self.s0 + rhs.s0, self.s1 + rhs.s1, rhs.k, sum_tests)
 
-def RecS:
+class RecS:
     def __init__(self, n, s, delta):
         delta_collision = delta / 2.0
         self.cnt = 0
@@ -82,7 +84,13 @@ def RecS:
     def touched():
         return self.cnt != 0
 
-def RecGeneral:
+class RecGeneral:
+    def __init__(self, k, n, h, sketch):
+        self.k = k
+        self.n = n
+        self.h = h
+        self.sketch = sketch
+
     def __init__(self, n, delta):
         delta_filter = delta / 2.0
         delta_decode = delta / 2.0
@@ -92,12 +100,7 @@ def RecGeneral:
         self.h = HashK(n**3, self.s)
         self.sketch = [RecS(n, s, delta_decode) for i in xrange(self.k)]
 
-    def __init__(self, k, n, h, sketch):
-        self.k = k
-        self.n = n
-        self.h = h
-        self.sketch = sketch
-
+    
     def update(self, ind, val):
         for i in xrange(k):
             if self.h.at(ind) % (2**i) == 0:
@@ -116,5 +119,7 @@ def RecGeneral:
         return RecGeneral(rhs.k, rhs.n, rhs.h, sketch_sum)
 
 def generate_graph_sketch(n, m, delta):
+    sketch = RecGeneral(m, delta)
+    return [copy.deepcopy(sketch) for i in xrange(n)]
 
             
